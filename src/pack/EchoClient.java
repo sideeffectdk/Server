@@ -6,8 +6,9 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 
+
 /**
- * Created by sorin on 12/3/2015.
+ * Created by MED3-4 - 7/12/2015.
  */
 public class EchoClient {
     private String hostName;
@@ -43,14 +44,14 @@ public class EchoClient {
             ByteArrayOutputStream bo=new ByteArrayOutputStream();
             ImageIO.write(bi,"jpg",bo);
             byte[] size= ByteBuffer.allocate(4).putInt(bo.size()).array();
-            System.out.println("sending images");
+            System.out.println("Sending images");
             out.write(size);
             out.write(bo.toByteArray());;
             out.flush();
 
             byte[] sizeAr=new byte[4];
             in.read(sizeAr);
-            System.out.println("geting image");
+            System.out.println("Getting image");
             int cSize=ByteBuffer.wrap(sizeAr).asIntBuffer().get();
             byte[] imageArray=new byte[cSize];
             int sizerecv=0;
@@ -75,7 +76,7 @@ public class EchoClient {
             catch (EOFException e){
                 System.out.println();
             }
-            ImageIO.write(cBufimg,"jpg",new File("girl.jpg"));
+            ImageIO.write(cBufimg,"jpg",new File("converted.jpg"));
             }
             catch (IOException e){
                 e.printStackTrace();

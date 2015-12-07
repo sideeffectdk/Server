@@ -1,5 +1,6 @@
 package pack;
 
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -9,15 +10,13 @@ import java.nio.ByteBuffer;
 
 
 /**
- * Created by sorin on 12/3/2015.
+ * Created by MED3-4 - 7/12/2015.
  *
  */
 
 public class MultiThreadServ {
 
 
-
-    ServerSocket serv;
     public MultiThreadServ(){
         try{
             ServerSocket serv= new ServerSocket(7777);
@@ -48,12 +47,11 @@ public class MultiThreadServ {
             try {
                 OutputStream out = so.getOutputStream();
                 InputStream in = so.getInputStream();
-                int kernelChoice=3;
                 byte[] imdim = new byte[4];
                 in.read(imdim);
                 int size = ByteBuffer.wrap(imdim).asIntBuffer().get();
 
-                //Getting image from the client
+                // Getting image from the client
                 System.out.println("geting image");
                 byte[] imageAr = new byte[size];
                int sizerecv = 0;
@@ -72,7 +70,7 @@ public class MultiThreadServ {
                     sizerecv = sizerecv + sizerecv2;
                 }
                 System.out.println("converting bytes to image");
-                //Bytes-image
+                // Bytes-image
                 BufferedImage bufimg = null;
                 try {
                     System.out.println("init new byte");
@@ -81,12 +79,13 @@ public class MultiThreadServ {
                 } catch (EOFException ex) {
                     System.out.println("Image read");
                 }
-                //converting program
+                // Converting program
                 System.out.println("start to convert");
-            //BufferedImage conv= Converter.convert(bufimg,kernelChoice);
-            //sending to client
+            BufferedImage conv = Converter.convert(bufimg);
+            // Sending to client
                 System.out.println("send to the client");
             ByteArrayOutputStream byteO=new ByteArrayOutputStream();
+                ImageIO.write(conv,"jpg",byteO);
 
             byte[] cSize=ByteBuffer.allocate(4).putInt(byteO.size()).array();
             out.write(cSize);
